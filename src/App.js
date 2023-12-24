@@ -36,6 +36,8 @@ function App() {
             socketRef.current.emit('init', email)
 
             socketRef.current.on('init', data => {
+                if (!data) return
+
                 setConversations(data)
             })
 
@@ -65,6 +67,8 @@ function App() {
     }, [conversations])
 
     useEffect(() => {
+        if (!currentConversation) return
+
         fetch('https://chat-be-production.up.railway.app/' + currentConversation)
             .then(res => res.json())
             .then(data => {
