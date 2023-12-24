@@ -66,7 +66,7 @@ function App() {
     }, [conversations])
 
     const sendMessage = () => {
-        if (message !== null) {
+        if (message.trim()) {
             const msg = {
                 conversation_id: currentConversation,
                 sender: email,
