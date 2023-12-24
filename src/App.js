@@ -114,7 +114,7 @@ function App() {
 
     const renderConversations = () => {
         return conversations.map((conversation, index) => {
-            return <div className={`flex items-center hover:bg-gray-100 cursor-pointer ${conversation._id == currentConversation ? 'bg-gray': ''}`} key={index} onClick={() => setCurrentConversation(conversation._id)}>
+            return <div className={`flex items-center hover:bg-gray-100 cursor-pointer ${conversation._id == currentConversation ? 'bg-gray-100': ''}`} key={index} onClick={() => setCurrentConversation(conversation._id)}>
                 <div className='w-[56px]'>
                     <img src={logo} alt='User Avatar' className='w-full aspect-square rounded-full'/>
                 </div>
