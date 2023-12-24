@@ -36,7 +36,7 @@ function App() {
             socketRef.current.emit('init', email)
 
             socketRef.current.on('init', data => {
-                if (!data) return
+                if (!data.length) return
 
                 setConversations(data)
             })
@@ -114,7 +114,7 @@ function App() {
 
     const renderConversations = () => {
         return conversations.map((conversation, index) => {
-            return <div className={`flex items-center hover:bg-gray-100 cursor-pointer ${conversation._id === currentConversation ? 'bg-gray': ''}`} key={index} onClick={() => setCurrentConversation(conversation._id)}>
+            return <div className={`flex items-center hover:bg-gray-100 cursor-pointer ${conversation._id == currentConversation ? 'bg-gray': ''}`} key={index} onClick={() => setCurrentConversation(conversation._id)}>
                 <div className='w-[56px]'>
                     <img src={logo} alt='User Avatar' className='w-full aspect-square rounded-full'/>
                 </div>
@@ -184,7 +184,7 @@ function App() {
             <div className='basis-[70%] h-[95%] py-2 border-l border-gray-200'>
                 <div className='border-b border-gray-200 h-[8%] flex items-center'>
                     <img src={logo} alt='User Avatar' className='w-[56px] aspect-square rounded-full'/>
-                    <div className='font-semibold'>{conversations[0].members.find(member => member !== email)}</div>
+                    <div className='font-semibold'>{conversations.find(conversation => conversation._id === currentConversation).members.find(member => member !== email)}</div>
                 </div>
                 <div className='h-[92%]'>
                     <div className='h-[93%] p-3 space-y-2 overflow-y-scroll flex flex-col justify-end'>
