@@ -22,7 +22,7 @@ function App() {
             },
         }
     ]);
-    const [currentConversation, setCurrentConversation] = useState('');//[{}
+    const [currentConversation, setCurrentConversation] = useState('')
 
     const socketRef = useRef();
 
@@ -41,7 +41,9 @@ function App() {
 
             socketRef.current.on('receive', dataGot => {
                 setConversations(conversations => {
-                    conversations[0].last_message = dataGot
+                    const conversationId = dataGot.conversationId
+                    const conversation = conversations.find(conversation => conversation._id === conversationId)
+                    conversation.last_message = dataGot
                     return conversations
                 })
                 setMess(messes => [...messes, dataGot])
@@ -56,14 +58,19 @@ function App() {
     useEffect(() => {
         if (conversations.length === 0) return
         const conversationId = conversations[0]._id
+
         if (!conversationId) return
         setCurrentConversation(conversationId)
-        fetch('https://chat-be-production.up.railway.app/' + conversationId)
+
+    }, [conversations])
+
+    useEffect(() => {
+        fetch('https://chat-be-production.up.railway.app/' + currentConversation)
             .then(res => res.json())
             .then(data => {
                 setMess([...data.messages])
             })
-    }, [conversations])
+    }, [currentConversation]);
 
     const sendMessage = () => {
         if (message.trim()) {
@@ -103,7 +110,7 @@ function App() {
 
     const renderConversations = () => {
         return conversations.map((conversation, index) => {
-            return <div className='flex items-center hover:bg-gray-100 cursor-pointer' key={index}>
+            return <div className={`flex items-center hover:bg-gray-100 cursor-pointer ${conversation._id === currentConversation ? 'bg-gray': ''}`} key={index} onClick={() => setCurrentConversation(conversation._id)}>
                 <div className='w-[56px]'>
                     <img src={logo} alt='User Avatar' className='w-full aspect-square rounded-full'/>
                 </div>
