@@ -5,7 +5,7 @@ import logo from './logo.svg';
 import {initFlowbite} from 'flowbite';
 import moment from "moment";
 
-const host = "http://localhost:3001";
+const host = "chat-be-production.up.railway.app";
 
 function App() {
     const [mess, setMess] = useState([]);
@@ -58,7 +58,7 @@ function App() {
         const conversationId = conversations[0]._id
         if (!conversationId) return
         setCurrentConversation(conversationId)
-        fetch('http://localhost:3001/' + conversationId)
+        fetch('chat-be-production.up.railway.app/' + conversationId)
             .then(res => res.json())
             .then(data => {
                 setMess([...data.messages])
